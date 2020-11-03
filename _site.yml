@@ -1,10 +1,12 @@
 name: "Yay internet!"
 output_dir: "."
 navbar:
-  title: "Home"
+  title: "Emma Gorin"
   right:
     - text: "About"
       href: about.html
+    - text: "CV"
+      href: EGorin_CV.pdf
     - icon: fa-linkedin fa-lg
       href: https://www.linkedin.com/in/emma-gorin-73536547/
     - icon: fa-envelope fa-lg
