@@ -4,15 +4,18 @@ output:
   html_document:
     toc: true
     toc_float: true
-    theme: cerulean
 ---
 
 
 
 ![](https://media.giphy.com/media/drXGoW1iudhKw/giphy.gif)
+
 ## Practice making some links:
 
 * [google] (https://www.google.com/)
 
 ## Local image:
 ![](images/egorin_headshot_1.jpg)
+
+## link to about page
+[About me](about.html)
