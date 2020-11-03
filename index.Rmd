@@ -1,0 +1,18 @@
+---
+title: "Emma Gorin"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cerulean
+---
+
+# Emma Gorin
+
+![](https://media.giphy.com/media/drXGoW1iudhKw/giphy.gif)
+## Practice making some links:
+
+* [google] (https://www.google.com/)
+
+## Local image:
+![](images/egorin_headshot_1.jpg)
