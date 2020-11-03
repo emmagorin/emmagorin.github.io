@@ -16,6 +16,7 @@ output:
 
 ## Local image:
 ![](images/egorin_headshot_1.jpg)
+<img src="images/egorin_headshot_1.jpg" style="width:75%">
 
 ## link to about page
 [About me](about.html)
