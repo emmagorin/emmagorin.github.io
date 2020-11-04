@@ -1,5 +1,5 @@
 ---
-title: "CV"
+title: "Emma Gorin"
 output: 
   html_document:
     toc: true

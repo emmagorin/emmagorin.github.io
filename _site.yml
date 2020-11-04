@@ -3,8 +3,8 @@ output_dir: "."
 navbar:
   title: "Emma Gorin"
   right:
-    - text: "About"
-      href: about.html
+    - text: "Dashboard"
+      href: dashboard.html
     - text: "CV"
       href: EGorin_CV.pdf
     - icon: fa-linkedin fa-lg
