@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Dashboard: NYC Restaurant Inspections"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns
@@ -12,17 +12,8 @@ library(tidyverse)
 library(p8105.datasets)
 library(plotly)
 
-data("nyc_airbnb")
-nyc_airbnb = 
-  nyc_airbnb %>% 
-  mutate(rating = review_scores_location / 2) %>% 
-  select(neighbourhood_group, neighbourhood, rating, price, room_type, lat, long) %>%
-  filter(
-    neighbourhood_group == "Manhattan",
-    price %in% 100:500,
-    room_type == "Entire home/apt"
-  ) %>% 
-  drop_na(rating)
+data("rest_inspec")
+
 ```
 
 Column {data-width=650}
@@ -31,8 +22,8 @@ Column {data-width=650}
 ### Chart A
 
 ```{r}
-nyc_airbnb %>% 
-  mutate(text_label = str_c("Price: $", price, "\nRating: ", rating)) %>% 
+rest_inspec %>% 
+  #mutate(text_label = str_c("Price: $", price, "\nRating: ", rating)) %>% 
   plot_ly(
     x = ~lat, y = ~long, color = ~price, text = ~text_label,
     alpha = .5, type = "scatter", mode = "markers")
@@ -53,12 +44,19 @@ nyc_airbnb %>%
 
 ### Chart C
 
+Let's look at the zipcodes with the most violations in Manhattan, and see how many violations they have in the dataset.
+
+Ok, this is kind of boring, but it's a thing you can do...
+
 ```{r}
-nyc_airbnb %>% 
-  count(neighbourhood) %>% 
-  mutate(neighbourhood = fct_reorder(neighbourhood, n)) %>% 
+rest_inspec %>% 
+  filter(boro == "MANHATTAN") %>% 
+  count(zipcode) %>%
+  mutate(zipcode = as.factor(zipcode),
+         zipcode = fct_reorder(zipcode, -n)) %>% 
+  filter(min_rank(desc(n)) < 11) %>% 
   plot_ly(
-    x = ~neighbourhood, y = ~n, color = ~neighbourhood,
-    type = "bar", colors = "viridis")
+    x = ~zipcode, y = ~n, 
+    type = "bar")
 ```
 
