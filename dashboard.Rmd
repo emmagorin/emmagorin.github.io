@@ -11,9 +11,9 @@ output:
 library(tidyverse)
 library(p8105.datasets)
 library(plotly)
+library(lubridate)
 
 data("rest_inspec")
-
 ```
 
 Column {data-width=650}
@@ -21,12 +21,21 @@ Column {data-width=650}
 
 ### Chart A
 
+Look at change in number of violations per month for each boro, and how they have changed over time.
+
 ```{r}
 rest_inspec %>% 
-  #mutate(text_label = str_c("Price: $", price, "\nRating: ", rating)) %>% 
-  plot_ly(
-    x = ~lat, y = ~long, color = ~price, text = ~text_label,
-    alpha = .5, type = "scatter", mode = "markers")
+  mutate(inspection_month = format(inspection_date, "%Y-%m")) %>% 
+  filter(inspection_date > as.Date("2000-01-01"),
+         boro != "Missing") %>% 
+  select(boro, inspection_month) %>%
+  group_by(boro, inspection_month) %>% 
+  summarize(n_obs = n()) %>% 
+  plot_ly(x = ~inspection_month, y = ~n_obs) %>% 
+  add_lines(color = ~boro, colors = "viridis")
+  
+  
+   #Just a note in case this is helpful later: mutate(text_label = str_c("Price: $", price, "\nRating: ", rating)) %>% 
 ```
 
 Column {data-width=350}
@@ -35,11 +44,33 @@ Column {data-width=350}
 ### Chart B
 
 ```{r}
-nyc_airbnb %>% 
-  mutate(neighbourhood = fct_reorder(neighbourhood, price)) %>% 
-  plot_ly(
-    y = ~price, x = ~neighbourhood, color = ~neighbourhood,
-    type = "box", colors = "viridis")
+rest_inspec %>% 
+  mutate(year = year(inspection_date),
+         month = month(inspection_date),
+         year_month = make_date(year, month)) %>% 
+  filter(inspection_date > as.Date("2000-01-01")) %>% 
+  group_by(year, month) %>% 
+  mutate(total_monthly_viol = n()) %>% 
+  filter(violation_code == "02G" | violation_code == "02B") %>% 
+  group_by(year_month, violation_code) %>% 
+  summarize(viol_per_type = n(),
+            total_monthly_viol = mean(total_monthly_viol)) %>% # keep total violations in the month and violations per violation code
+  mutate(percent_viol = (viol_per_type/total_monthly_viol)*100) %>% 
+  plot_ly(x = ~year_month, y = ~percent_viol, color = ~violation_code) %>% 
+  add_lines(color = ~violation_code)
+  
+  
+rest_inspec %>% 
+  mutate(year = year(inspection_date),
+         month = month(inspection_date),
+         year_month = make_date(year, month)) %>% 
+  filter(inspection_date > as.Date("2000-01-01"),
+         violation_code == "02G" | violation_code == "02B") 
+  select(year, violation_code) %>%
+  group_by(violation_code, inspection_month) %>% 
+  summarize(n_obs = n()) %>% 
+  plot_ly(x = ~inspection_month, y = ~n_obs) %>% 
+  add_lines(color = ~violation_code, colors = "viridis")
 ```
 
 ### Chart C
@@ -47,6 +78,9 @@ nyc_airbnb %>%
 Let's look at the zipcodes with the most violations in Manhattan, and see how many violations they have in the dataset.
 
 Ok, this is kind of boring, but it's a thing you can do...
+
+
+NOTE: should probably make below into a histogram, might wanna do that vvvv
 
 ```{r}
 rest_inspec %>% 
