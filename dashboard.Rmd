@@ -16,12 +16,10 @@ library(lubridate)
 data("rest_inspec")
 ```
 
-Column {data-width=650}
+Column {data-width=650, .tabset}
 -----------------------------------------------------------------------
 
 ### Chart A
-
-Look at change in number of violations per month for each boro, and how they have changed over time.
 
 ```{r}
 rest_inspec %>% 
@@ -29,11 +27,11 @@ rest_inspec %>%
          boro != "Missing") %>% 
   group_by(camis) %>% 
   mutate(n_per_restaurant = n(),
-         yr = year(inspection_date)) %>% 
+         year = year(inspection_date)) %>% 
   filter(yr > 2013) %>% 
   plot_ly(x = ~boro, y = ~n_per_restaurant, 
           color = ~boro, colors = "viridis", type = "box",
-          frame = ~yr) %>% 
+          frame = ~year) %>% 
    layout(title = "Number of violations per restaurant by borough",
          xaxis = list(title = "Borough"),
          yaxis = list(title = "Violations per restaurant"),
@@ -41,6 +39,9 @@ rest_inspec %>%
 ```
 
 Column {data-width=350}
+-----------------------------------------------------------------------
+
+Row {data-height=100}
 -----------------------------------------------------------------------
 
 ### Chart B
@@ -90,22 +91,21 @@ subplot(p1, p2)
 
 ### Chart C
 
-Let's look at the zipcodes with the most violations in Manhattan, and see how many violations they have in the dataset.
-
-Ok, this is kind of boring, but it's a thing you can do...
-
-
-NOTE: should probably make below into a histogram, might wanna do that vvvv
+Let's look at restaurants with the most violations in 10001 in 2017
 
 ```{r}
 rest_inspec %>% 
-  filter(boro == "MANHATTAN") %>% 
-  count(zipcode) %>%
-  mutate(zipcode = as.factor(zipcode),
-         zipcode = fct_reorder(zipcode, -n)) %>% 
+  filter(zipcode == 10001) %>%
+  mutate(year = year(inspection_date)) %>% 
+  filter(year == 2017) %>% 
+  count(camis, dba) %>% 
+  mutate(dba = as.factor(dba), 
+         dba = fct_reorder(dba, -n)) %>% 
   filter(min_rank(desc(n)) < 11) %>% 
-  plot_ly(
-    x = ~zipcode, y = ~n, 
-    type = "bar")
+  mutate(dba = fct_reorder(dba, n)) %>% 
+  plot_ly(y = ~dba, x = ~n, type = "bar", orientation = "h") %>% 
+  layout(title = "Restuarants with most violations in 2017 in 10001",
+         xaxis = list(title = "Number of violations"),
+         yaxis = list(title = "Restaurant"))
 ```
 
