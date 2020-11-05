@@ -6,18 +6,16 @@ output:
     toc_float: true
 ---
 
+<img src="images/egorin_headshot_1.jpg" style="width:40%" ALIGN = "right" HSPACE="50" VSPACE="25" />
 
-## Welcome! 
+### Welcome! 
 
 I'm Emma, I'm a PhD student in Environmental Health Sciences at the Columbia Mailman School of Public Health, and this is a website about me! 
 
-I received a BA from Wesleyan University in 2012, an MSPH from Johns Hopkins School of Public Health in 2019, and started my PhD at Columbia in the fall of 2020. Throughout my career I've worked in school, hospital, and non-profit settings in the US and abroad, in health education and public health program implementation as well as clinical and community-based research.  My interests include infectious disease dynamics and modeling, emerging infectious diseases, global disease control programs and policy, climate, and health equity. 
 
-When I'm not working on my PhD coursework and research from my New York home, you might find me [morris] or [sword] dancing, [calling contra dances], or making [pottery], especially before March of 2020. 
+I received a BA from Wesleyan University in 2012, an MSPH from Johns Hopkins School of Public Health in 2019, and started my PhD at Columbia in the fall of 2020. Throughout my career I've worked in school, hospital, and non-profit settings in the US and abroad, in health education and public health program implementation as well as clinical and community-based research.  My interests include infectious disease dynamics and modeling, emerging infectious diseases, global disease control, climate, and health equity. 
+
+When I'm not working on my PhD coursework and research from my New York home, you might find me morris dancing, sword dancing, contra dancing, or making pottery, especially before March of 2020. 
 
 
-![](images/egorin_headshot_1.jpg)
-<img src="images/egorin_headshot_1.jpg" style="width:75%">
 
-## link to about page
-[About me](about.html)

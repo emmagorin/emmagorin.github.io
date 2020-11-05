@@ -5,6 +5,7 @@ output:
     orientation: columns
     vertical_layout: fill
     source: embed
+    theme: sandstone
 ---
 
 ```{r setup, include=FALSE}
@@ -19,7 +20,7 @@ data("rest_inspec")
 Column {data-width=650, .tabset}
 -----------------------------------------------------------------------
 
-### Chart A
+### Number of violations per restaurant by borough
 
 ```{r}
 rest_inspec %>% 
@@ -28,12 +29,11 @@ rest_inspec %>%
   group_by(camis) %>% 
   mutate(n_per_restaurant = n(),
          year = year(inspection_date)) %>% 
-  filter(yr > 2013) %>% 
+  filter(year > 2013) %>% 
   plot_ly(x = ~boro, y = ~n_per_restaurant, 
           color = ~boro, colors = "viridis", type = "box",
           frame = ~year) %>% 
-   layout(title = "Number of violations per restaurant by borough",
-         xaxis = list(title = "Borough"),
+   layout(xaxis = list(title = "Borough"),
          yaxis = list(title = "Violations per restaurant"),
          showlegend = FALSE)
 ```
@@ -41,13 +41,10 @@ rest_inspec %>%
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-Row {data-height=100}
------------------------------------------------------------------------
-
-### Chart B
+### Food temperature related violations over time
 
 ```{r}
-p1 = rest_inspec %>% 
+rest_inspec %>% 
   mutate(year = year(inspection_date),
          month = month(inspection_date),
          year_month = make_date(year, month)) %>% 
@@ -63,35 +60,30 @@ p1 = rest_inspec %>%
   mutate(violation_code = recode(violation_code, "02G" = "Cold item kept too hot", "02B" = "Hot item kept too cold")) %>% 
   plot_ly(x = ~year_month, y = ~percent_viol, 
           color = ~violation_code, type = "scatter", mode = "lines") %>% 
-  layout(title = "Food temperature related violations over time",
-         xaxis = list(title = "Date"),
+  layout(xaxis = list(title = "Date"),
          yaxis = list(title = "Percent of total violations"),
-         legend = list(x = 0, y = -0.6, title = "Violation type"))
+         legend = list(orientation = "h", x = 0, y = -0.6, title = "Violation type"))
   
-p2 = rest_inspec %>% 
-  mutate(year = year(inspection_date),
-         month = month(inspection_date),
-         year_month = make_date(year, month)) %>% 
-  filter(inspection_date > as.Date("2013-12-01"),
-         violation_code == "02G" | violation_code == "02B") %>% 
-  select(year_month, violation_code) %>%
-  group_by(violation_code, year_month) %>% 
-  summarize(n_obs = n()) %>% 
-  mutate(violation_code = recode(violation_code, "02G" = "Cold item kept too hot", "02B" = "Hot item kept too cold")) %>% 
-  plot_ly(x = ~year_month, y = ~n_obs, 
-          color = ~violation_code, type = "scatter", mode = "lines") %>% 
-   layout(title = "Food temperature related violations over time",
-         xaxis = list(title = "Date"),
-         yaxis = list(title = "Number of violations"),
-         legend = list(orientation = "h", x = 0, y = -0.6, 
-                       title = "Violation type"))
-
-subplot(p1, p2)
+# rest_inspec %>% 
+#   mutate(year = year(inspection_date),
+#          month = month(inspection_date),
+#          year_month = make_date(year, month)) %>% 
+#   filter(inspection_date > as.Date("2013-12-01"),
+#          violation_code == "02G" | violation_code == "02B") %>% 
+#   select(year_month, violation_code) %>%
+#   group_by(violation_code, year_month) %>% 
+#   summarize(n_obs = n()) %>% 
+#   mutate(violation_code = recode(violation_code, "02G" = "Cold item kept too hot", "02B" = "Hot item kept too cold")) %>% 
+#   plot_ly(x = ~year_month, y = ~n_obs, 
+#           color = ~violation_code, type = "scatter", mode = "lines") %>% 
+#    layout(title = "Food temperature related violations over time",
+#          xaxis = list(title = "Date"),
+#          yaxis = list(title = "Number of violations"),
+#          legend = list(orientation = "h", x = 0, y = -0.6, 
+#                        title = "Violation type"))
 ```
 
-### Chart C
-
-Let's look at restaurants with the most violations in 10001 in 2017
+### Restuarants with most violations in 2017 in 10001
 
 ```{r}
 rest_inspec %>% 
@@ -103,9 +95,9 @@ rest_inspec %>%
          dba = fct_reorder(dba, -n)) %>% 
   filter(min_rank(desc(n)) < 11) %>% 
   mutate(dba = fct_reorder(dba, n)) %>% 
-  plot_ly(y = ~dba, x = ~n, type = "bar", orientation = "h") %>% 
-  layout(title = "Restuarants with most violations in 2017 in 10001",
+  plot_ly(y = ~dba, x = ~n, type = "bar", orientation = "h", colors = "viridis") %>% 
+  layout(
          xaxis = list(title = "Number of violations"),
-         yaxis = list(title = "Restaurant"))
+         yaxis = list(title = ""))
 ```
 
