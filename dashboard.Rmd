@@ -25,17 +25,19 @@ Look at change in number of violations per month for each boro, and how they hav
 
 ```{r}
 rest_inspec %>% 
-  mutate(inspection_month = format(inspection_date, "%Y-%m")) %>% 
   filter(inspection_date > as.Date("2000-01-01"),
          boro != "Missing") %>% 
-  select(boro, inspection_month) %>%
-  group_by(boro, inspection_month) %>% 
-  summarize(n_obs = n()) %>% 
-  plot_ly(x = ~inspection_month, y = ~n_obs) %>% 
-  add_lines(color = ~boro, colors = "viridis")
-  
-  
-   #Just a note in case this is helpful later: mutate(text_label = str_c("Price: $", price, "\nRating: ", rating)) %>% 
+  group_by(camis) %>% 
+  mutate(n_per_restaurant = n(),
+         yr = year(inspection_date)) %>% 
+  filter(yr > 2013) %>% 
+  plot_ly(x = ~boro, y = ~n_per_restaurant, 
+          color = ~boro, colors = "viridis", type = "box",
+          frame = ~yr) %>% 
+   layout(title = "Number of violations per restaurant by borough",
+         xaxis = list(title = "Borough"),
+         yaxis = list(title = "Violations per restaurant"),
+         showlegend = FALSE)
 ```
 
 Column {data-width=350}
@@ -44,33 +46,46 @@ Column {data-width=350}
 ### Chart B
 
 ```{r}
-rest_inspec %>% 
+p1 = rest_inspec %>% 
   mutate(year = year(inspection_date),
          month = month(inspection_date),
          year_month = make_date(year, month)) %>% 
-  filter(inspection_date > as.Date("2000-01-01")) %>% 
-  group_by(year, month) %>% 
+  filter(inspection_date > as.Date("2013-12-01")) %>% 
+  group_by(year_month) %>% 
   mutate(total_monthly_viol = n()) %>% 
   filter(violation_code == "02G" | violation_code == "02B") %>% 
   group_by(year_month, violation_code) %>% 
   summarize(viol_per_type = n(),
             total_monthly_viol = mean(total_monthly_viol)) %>% # keep total violations in the month and violations per violation code
   mutate(percent_viol = (viol_per_type/total_monthly_viol)*100) %>% 
-  plot_ly(x = ~year_month, y = ~percent_viol, color = ~violation_code) %>% 
-  add_lines(color = ~violation_code)
+  ungroup() %>% 
+  mutate(violation_code = recode(violation_code, "02G" = "Cold item kept too hot", "02B" = "Hot item kept too cold")) %>% 
+  plot_ly(x = ~year_month, y = ~percent_viol, 
+          color = ~violation_code, type = "scatter", mode = "lines") %>% 
+  layout(title = "Food temperature related violations over time",
+         xaxis = list(title = "Date"),
+         yaxis = list(title = "Percent of total violations"),
+         legend = list(x = 0, y = -0.6, title = "Violation type"))
   
-  
-rest_inspec %>% 
+p2 = rest_inspec %>% 
   mutate(year = year(inspection_date),
          month = month(inspection_date),
          year_month = make_date(year, month)) %>% 
-  filter(inspection_date > as.Date("2000-01-01"),
-         violation_code == "02G" | violation_code == "02B") 
-  select(year, violation_code) %>%
-  group_by(violation_code, inspection_month) %>% 
+  filter(inspection_date > as.Date("2013-12-01"),
+         violation_code == "02G" | violation_code == "02B") %>% 
+  select(year_month, violation_code) %>%
+  group_by(violation_code, year_month) %>% 
   summarize(n_obs = n()) %>% 
-  plot_ly(x = ~inspection_month, y = ~n_obs) %>% 
-  add_lines(color = ~violation_code, colors = "viridis")
+  mutate(violation_code = recode(violation_code, "02G" = "Cold item kept too hot", "02B" = "Hot item kept too cold")) %>% 
+  plot_ly(x = ~year_month, y = ~n_obs, 
+          color = ~violation_code, type = "scatter", mode = "lines") %>% 
+   layout(title = "Food temperature related violations over time",
+         xaxis = list(title = "Date"),
+         yaxis = list(title = "Number of violations"),
+         legend = list(orientation = "h", x = 0, y = -0.6, 
+                       title = "Violation type"))
+
+subplot(p1, p2)
 ```
 
 ### Chart C
