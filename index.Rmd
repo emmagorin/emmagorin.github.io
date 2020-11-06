@@ -1,5 +1,5 @@
 ---
-title: "Emma Gorin"
+title: ""
 output: 
   html_document:
     toc: false
