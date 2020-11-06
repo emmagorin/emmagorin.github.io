@@ -17,7 +17,7 @@ library(lubridate)
 data("rest_inspec")
 ```
 
-Column {data-width=650, .tabset}
+Column {data-width=600}
 -----------------------------------------------------------------------
 
 ### Number of violations per restaurant by borough
@@ -38,10 +38,10 @@ rest_inspec %>%
          showlegend = FALSE)
 ```
 
-Column {data-width=350}
+Column {data-width=400}
 -----------------------------------------------------------------------
 
-### Food temperature related violations over time
+### Food temperature related violations as a percentage of all violations over time
 
 ```{r}
 rest_inspec %>% 
@@ -62,25 +62,28 @@ rest_inspec %>%
           color = ~violation_code, type = "scatter", mode = "lines") %>% 
   layout(xaxis = list(title = "Date"),
          yaxis = list(title = "Percent of total violations"),
-         legend = list(orientation = "h", x = 0, y = -0.6, title = "Violation type"))
-  
-# rest_inspec %>% 
-#   mutate(year = year(inspection_date),
-#          month = month(inspection_date),
-#          year_month = make_date(year, month)) %>% 
-#   filter(inspection_date > as.Date("2013-12-01"),
-#          violation_code == "02G" | violation_code == "02B") %>% 
-#   select(year_month, violation_code) %>%
-#   group_by(violation_code, year_month) %>% 
-#   summarize(n_obs = n()) %>% 
-#   mutate(violation_code = recode(violation_code, "02G" = "Cold item kept too hot", "02B" = "Hot item kept too cold")) %>% 
-#   plot_ly(x = ~year_month, y = ~n_obs, 
-#           color = ~violation_code, type = "scatter", mode = "lines") %>% 
-#    layout(title = "Food temperature related violations over time",
-#          xaxis = list(title = "Date"),
-#          yaxis = list(title = "Number of violations"),
-#          legend = list(orientation = "h", x = 0, y = -0.6, 
-#                        title = "Violation type"))
+         legend = list( x = 0, y = -0.6, title = "Violation type"))
+```
+
+### Food temperature related violations over time
+
+```{r}
+rest_inspec %>%
+  mutate(year = year(inspection_date),
+         month = month(inspection_date),
+         year_month = make_date(year, month)) %>%
+  filter(inspection_date > as.Date("2013-12-01"),
+         violation_code == "02G" | violation_code == "02B") %>%
+  select(year_month, violation_code) %>%
+  group_by(violation_code, year_month) %>%
+  summarize(n_obs = n()) %>%
+  mutate(violation_code = recode(violation_code, "02G" = "Cold item kept too hot", "02B" = "Hot item kept too cold")) %>%
+  plot_ly(x = ~year_month, y = ~n_obs,
+          color = ~violation_code, type = "scatter", mode = "lines") %>%
+   layout(xaxis = list(title = "Date"),
+         yaxis = list(title = "Number of violations"),
+         legend = list(x = 0, y = -0.6,
+                       title = "Violation type"))
 ```
 
 ### Restuarants with most violations in 2017 in 10001
