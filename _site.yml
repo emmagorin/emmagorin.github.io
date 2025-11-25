@@ -3,6 +3,8 @@ output_dir: "."
 navbar:
   title: "Emma Gorin"
   right:
+    - text: "Epidemics 2026"
+      href: dashboard.html # to update!
     - text: "Dashboard: NYC restaurant inspections"
       href: dashboard.html
     - text: "Github repo for this site"
