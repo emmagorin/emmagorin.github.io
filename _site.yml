@@ -3,7 +3,7 @@ output_dir: "."
 navbar:
   title: "Emma Gorin"
   right:
-    - text: "Epidemics 2026"
+    - text: "Epidemics 2025"
       href: dashboard.html # to update!
     - text: "Github repo for this site"
       href: https://github.com/emmagorin/emmagorin.github.io

@@ -1,0 +1,16 @@
+---
+title: ""
+output: 
+  html_document:
+    toc: false
+    toc_float: true
+---
+
+<img src="images/egorin_epidemics_2025_website_version.pdf" style="width:40%" ALIGN = "right" HSPACE="50" VSPACE="25" /> -->
+
+##### Thank you for viwing my poster at Epidemics 2025!
+
+Here are some ways to stay in touch:
+
+
+
