@@ -6,7 +6,7 @@ output:
     toc_float: true
 ---
 
-<img src="images/egorin_epidemics_2025_website_version.pdf" style="width:40%" ALIGN = "right" HSPACE="50" VSPACE="25" /> -->
+<img src="images/egorin_epidemics_2025_website_version.pdf" style="width:40%" ALIGN = "left" HSPACE="50" VSPACE="25" /> -->
 
 ##### Thank you for viwing my poster at Epidemics 2025!
 

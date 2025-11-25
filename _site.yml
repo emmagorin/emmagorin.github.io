@@ -4,7 +4,7 @@ navbar:
   title: "Emma Gorin"
   right:
     - text: "Epidemics 2025"
-      href: dashboard.html # to update!
+      href: epidemics_2025.html # to update!
     - text: "Github repo for this site"
       href: https://github.com/emmagorin/emmagorin.github.io
     - text: "CV"
