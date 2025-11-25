@@ -6,11 +6,25 @@ output:
     toc_float: true
 ---
 
-<img src="images/egorin_epidemics_2025_website_version.pdf" style="width:40%" ALIGN = "left" HSPACE="50" VSPACE="25" /> -->
+<img src="images/egorin_epidemics_2025.jpg" style="width:40%" ALIGN = "left" HSPACE="30" VSPACE=10" />
 
-##### Thank you for viwing my poster at Epidemics 2025!
+#### Thank you for viewing my poster at Epidemics 2025! 
 
-Here are some ways to stay in touch:
+#### Please stay in touch:
+
+[Connect on linkedin](https://www.linkedin.com/in/emma-gorin-73536547/)
+
+[Email me](mailto:<emg2237@cumc.columbia.edu>)
+
+[Download poster pdf](images/egorin_epidemics_2025.pdf)
+
+[Share your name and email with me](https://docs.google.com/forms/d/e/1FAIpQLSfeGxwMvbuWwhxKo6pZMlPSDgcfZAwk3ZWYfFJVB6O27tJHCw/viewform?usp=dialog) and I'll share updates on this project
+
+At Epidemics? Loved it? You can vote for it in the conference app. This is poster P3.031
+
+
+
+
 
 
 
