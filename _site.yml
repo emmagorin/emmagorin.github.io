@@ -5,6 +5,8 @@ navbar:
   right:
     - text: "Epidemics 2025"
       href: epidemics_2025.html # to update!
+    - text: "Dashboard: NYC restaurant inspections"
+      href: dashboard.html
     - text: "Github repo for this site"
       href: https://github.com/emmagorin/emmagorin.github.io
     - text: "CV"
